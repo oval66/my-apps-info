@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { APPS } from '../data/apps';
 
 interface Props {
@@ -103,9 +104,11 @@ const navItems = [
                   style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
                 >
                   {app.iconUrl ? (
-                    <img
+                    <Image
                       src={app.iconUrl}
                       alt={app.name}
+                      width={16}
+                      height={16}
                       class="w-full h-full object-cover"
                     />
                   ) : (

@@ -1,3 +1,7 @@
+import type { ImageMetadata } from 'astro';
+import chordTrainerIcon from '../assets/icons/chordtrainer.png';
+import sketchChordIcon from '../assets/icons/sketchchord.png';
+
 export type AppCategory = 'All' | 'Music' | 'Education' | 'Creativity';
 
 export interface FAQItem {
@@ -18,7 +22,7 @@ export interface AppItem {
   appStoreUrl: string;
   supportEmail: string;
   badges?: string[];
-  iconUrl: string;
+  iconUrl: ImageMetadata;
   iconBg: string;
   iconFg?: string;
   iconSvg?: string;
@@ -67,7 +71,7 @@ export const APPS: AppItem[] = [
     appStoreUrl: 'https://apps.apple.com',
     supportEmail: 'app-support@250tr.com',
     badges: ['Universal', 'CoreMIDI対応'],
-    iconUrl: '/icons/chordtrainer.png',
+    iconUrl: chordTrainerIcon,
     iconBg: '#3B82F6',
     shortDescription:
       'MIDIキーボードを繋いでピアノのコード・ボイシング・コード進行の「瞬発力」をゲーム感覚で鍛え上げる実践的トレーニングアプリ。完全無料・広告なし。',
@@ -155,7 +159,7 @@ export const APPS: AppItem[] = [
     appStoreUrl: 'https://apps.apple.com',
     supportEmail: 'app-support@250tr.com',
     badges: ['Universal', 'AVAudioEngine対応'],
-    iconUrl: '/icons/sketchchord.png',
+    iconUrl: sketchChordIcon,
     iconBg: '#2563EB',
     shortDescription:
       '手書きリードシート（コード譜）のような五線譜UI上で、1小節4拍のスロットにコードを直感的に並べて試聴・スケッチできる作曲アシスタントアプリ。',

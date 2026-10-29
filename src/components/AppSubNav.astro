@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { AppItem } from '../data/apps';
 
 interface Props {
@@ -47,9 +48,11 @@ const subTabs = [
       >
         {
           app.iconUrl ? (
-            <img
+            <Image
               src={app.iconUrl}
               alt={`${app.name} App Icon`}
+              width={56}
+              height={56}
               class="w-full h-full object-cover"
             />
           ) : (

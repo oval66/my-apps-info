@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import DashboardLayout from '../layouts/DashboardLayout.astro';
 import { APPS, DEVELOPER_INFO } from '../data/apps';
 ---
@@ -61,9 +62,11 @@ import { APPS, DEVELOPER_INFO } from '../data/apps';
             style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
           >
             {app.iconUrl ? (
-              <img
+              <Image
                 src={app.iconUrl}
                 alt={`${app.name} App Icon`}
+                width={56}
+                height={56}
                 class="w-full h-full object-cover"
               />
             ) : (
