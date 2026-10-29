@@ -1,0 +1,91 @@
+---
+import type { AppItem } from '../data/apps';
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<article
+  data-category={app.category}
+  data-tags={app.tags.join(',')}
+  data-app-name={app.name.toLowerCase()}
+  class="app-grid-cell relative bg-white border-t border-r border-b border-gray-200 p-8 flex flex-col items-center text-center justify-start hover:bg-gray-50/50 transition-colors"
+>
+  {
+    app.badges && app.badges.length > 0 && (
+      <div class="absolute top-2.5 right-2.5 flex flex-wrap items-center justify-end gap-1">
+        {app.badges.map((badge) => (
+          <span class="
+            px-2 py-0.5 text-[10px] font-medium
+            text-gray-500 bg-gray-100/90 border border-gray-200/80
+            rounded-[3px] leading-tight
+          ">
+            {badge}
+          </span>
+        ))}
+      </div>
+    )
+  }
+
+  <a
+    href={`/apps/${app.slug}`}
+    aria-label={`${app.name} details`}
+    class="w-14 h-14 rounded-2xl shadow-sm mt-2.5 mb-2 flex items-center justify-center shrink-0 overflow-hidden border border-gray-200/60 focus:outline-none focus:ring-2 focus:ring-gray-300"
+    style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
+  >
+    {
+      app.iconUrl ? (
+        <img
+          src={app.iconUrl}
+          alt={`${app.name} App Icon`}
+          class="w-full h-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <svg class="w-7 h-7" viewBox="0 0 24 24" set:html={app.iconSvg} />
+      )
+    }
+  </a>
+
+  <h2 class="text-base font-semibold text-[#111215] text-center mb-2 tracking-tight">
+    <a href={`/apps/${app.slug}`} class="hover:underline underline-offset-4 decoration-gray-400">
+      {app.name}
+    </a>
+  </h2>
+
+  <p class="text-xs leading-relaxed text-[#6B7280] text-center max-w-[270px]">
+    {app.shortDescription}{' '}
+    <a
+      href={`/apps/${app.slug}`}
+      class="underline decoration-gray-400 underline-offset-2 hover:text-black transition-colors"
+    >
+      Learn more
+    </a>
+  </p>
+
+  <div class="mt-3.5 pt-2 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1 text-xs text-[#6B7280]">
+    <a
+      href={`/apps/${app.slug}/support`}
+      class="underline decoration-gray-400 underline-offset-2 hover:text-black transition-colors"
+    >
+      Support
+    </a>
+    <span class="text-gray-300 select-none" aria-hidden="true">·</span>
+    <a
+      href={`/apps/${app.slug}/privacy`}
+      class="underline decoration-gray-400 underline-offset-2 hover:text-black transition-colors"
+    >
+      Privacy
+    </a>
+    <span class="text-gray-300 select-none" aria-hidden="true">·</span>
+    <a
+      href={`/apps/${app.slug}/terms`}
+      class="underline decoration-gray-400 underline-offset-2 hover:text-black transition-colors"
+    >
+      Terms
+    </a>
+  </div>
+</article>

@@ -1,0 +1,104 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { APPS, DEVELOPER_INFO } from '../data/apps';
+---
+
+<DashboardLayout
+  title="Support Center — ChordTrainer & SketchChord"
+  description="Customer support directory, troubleshooting guides, and contact emails for ChordTrainer and SketchChord."
+  activeNav="support"
+>
+  <div class="mb-5">
+    <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-[#111215]">
+      Support
+    </h1>
+    <p class="text-sm font-normal text-[#6B7280] mt-1">
+      Select an application below to view its dedicated FAQ, MIDI/Audio troubleshooting guides, or contact our support desk.
+    </p>
+  </div>
+
+  <!-- 1px Shared-Border App Support Directory Grid -->
+  <section
+    aria-label="App Support Directory"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-gray-200 mb-10"
+  >
+    {
+      APPS.map((app, index) => (
+        <article
+          class:list={[
+            'bg-white border-r border-b border-gray-200 p-8 flex flex-col items-center text-center justify-start hover:bg-gray-50/50 transition-colors',
+            index === 0 && 'border-t',
+            index === 1 && 'md:border-t',
+            index === 2 && 'lg:border-t',
+          ]}
+        >
+          <a
+            href={`/apps/${app.slug}/support`}
+            class="w-14 h-14 rounded-2xl shadow-sm mb-4 flex items-center justify-center shrink-0 overflow-hidden border border-gray-200/60"
+            style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
+          >
+            {app.iconUrl ? (
+              <img
+                src={app.iconUrl}
+                alt={`${app.name} App Icon`}
+                class="w-full h-full object-cover"
+              />
+            ) : (
+              <svg class="w-7 h-7" viewBox="0 0 24 24" set:html={app.iconSvg} />
+            )}
+          </a>
+
+          <h2 class="text-base font-semibold text-[#111215] text-center mb-1">
+            <a href={`/apps/${app.slug}/support`} class="hover:underline underline-offset-4 decoration-gray-400">
+              {app.name}
+            </a>
+          </h2>
+
+          <p class="text-xs text-[#6B7280] mb-3">
+            v{app.version} · {app.iosRequirement}
+          </p>
+
+          <p class="text-xs leading-relaxed text-[#6B7280] text-center max-w-[260px] mb-4">
+            {app.faqs.length}件の公式FAQ（MIDI認識・発音・保存設定等）とトラブルシューティングを掲載。{' '}
+            <a
+              href={`/apps/${app.slug}/support`}
+              class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+            >
+              Open Support
+            </a>
+          </p>
+
+          <a
+            href={`mailto:${app.supportEmail}`}
+            class="text-xs text-[#6B7280] underline decoration-gray-400 underline-offset-2 hover:text-black mt-auto"
+          >
+            {app.supportEmail}
+          </a>
+        </article>
+      ))
+    }
+  </section>
+
+  <!-- General Studio Support Box -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <div class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215]">
+      <h2 class="mt-0">General Inquiries & App Store Support (総合お問い合わせ窓口)</h2>
+      <p>
+        <strong>ChordTrainer</strong> および <strong>SketchChord</strong> に関するご意見・不具合報告・機能リクエストは、各アプリの専用サポートページをご確認いただくか、総合窓口{' '}
+        <a href={`mailto:${DEVELOPER_INFO.contactEmail}`}>{DEVELOPER_INFO.contactEmail}</a> までお気軽にお問い合わせください。
+      </p>
+      <ul>
+        <li>
+          <strong>受付・回答目安:</strong> 通常 24〜48 営業時間以内（土日祝を除く）に順次ご返信いたします。お問い合わせの際はご利用端末（iPhone / iPad）および OS バージョンをご記載いただくとスムーズです。
+        </li>
+        <li>
+          <strong>App内課金・チップの復元と返金について:</strong> Apple StoreKit 2 による決済および返金処理はすべて Apple 側で管理されています。返金リクエスト等については{' '}
+          <a href="https://reportaproblem.apple.com" target="_blank" rel="noopener noreferrer">
+            reportaproblem.apple.com
+          </a>{' '}
+          をご利用ください。
+        </li>
+      </ul>
+    </div>
+  </div>
+</DashboardLayout>

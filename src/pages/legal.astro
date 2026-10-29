@@ -1,0 +1,146 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import { APPS, DEVELOPER_INFO } from '../data/apps';
+---
+
+<DashboardLayout
+  title="Legal Portal — Privacy Policies & Terms of Use"
+  description="Central index of Privacy Policies, Terms of Use, and EULA documentation for ChordTrainer and SketchChord."
+  activeNav="legal"
+>
+  <div class="mb-5">
+    <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-[#111215]">
+      Legal & Policies
+    </h1>
+    <p class="text-sm font-normal text-[#6B7280] mt-1">
+      Per-application Privacy Policies, Terms of Use, and studio-wide legal compliance documentation.
+    </p>
+  </div>
+
+  <!-- Filter / Jump Pills -->
+  <div class="flex flex-wrap items-center gap-1 mb-5">
+    <a
+      href="#app-policies"
+      class="bg-gray-200/80 text-gray-900 font-medium px-3 py-1.5 rounded-md text-xs"
+    >
+      All App Policies ({APPS.length})
+    </a>
+    <a
+      href="#privacy"
+      class="text-gray-600 hover:text-gray-900 px-3 py-1.5 text-xs"
+    >
+      Master Privacy Policy
+    </a>
+    <a
+      href="#terms"
+      class="text-gray-600 hover:text-gray-900 px-3 py-1.5 text-xs"
+    >
+      Master Terms of Use
+    </a>
+  </div>
+
+  <!-- Per-App Legal Matrix in 1px Shared-Border Grid -->
+  <section
+    id="app-policies"
+    aria-label="Per-App Legal Documents"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-gray-200 mb-10"
+  >
+    {
+      APPS.map((app, index) => (
+        <article
+          class:list={[
+            'bg-white border-r border-b border-gray-200 p-8 flex flex-col items-center text-center justify-start hover:bg-gray-50/50 transition-colors',
+            index === 0 && 'border-t',
+            index === 1 && 'md:border-t',
+            index === 2 && 'lg:border-t',
+          ]}
+        >
+          <a
+            href={`/apps/${app.slug}`}
+            class="w-14 h-14 rounded-2xl shadow-sm mb-4 flex items-center justify-center shrink-0 overflow-hidden border border-gray-200/60"
+            style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
+          >
+            {app.iconUrl ? (
+              <img
+                src={app.iconUrl}
+                alt={`${app.name} App Icon`}
+                class="w-full h-full object-cover"
+              />
+            ) : (
+              <svg class="w-7 h-7" viewBox="0 0 24 24" set:html={app.iconSvg} />
+            )}
+          </a>
+
+          <h2 class="text-base font-semibold text-[#111215] text-center mb-1">
+            {app.name}
+          </h2>
+          <p class="text-xs text-[#6B7280] mb-4">
+            {app.subtitle}
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-[#6B7280]">
+            <a
+              href={`/apps/${app.slug}/privacy`}
+              class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+            >
+              Privacy Policy
+            </a>
+            <span class="text-gray-300">·</span>
+            <a
+              href={`/apps/${app.slug}/terms`}
+              class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+            >
+              Terms of Use
+            </a>
+            <span class="text-gray-300">·</span>
+            <a
+              href={`/apps/${app.slug}/support`}
+              class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+            >
+              Support
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <!-- Studio-Wide Master Legal Document (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12 space-y-12">
+    <section id="privacy" class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215]">
+      <h2 class="mt-0">Studio Master Privacy Principles (共通プライバシー基本方針)</h2>
+      <p>
+        <strong>{DEVELOPER_INFO.studioName}</strong> が開発・提供するすべての音楽・トレーニングアプリケーション（<strong>ChordTrainer</strong> および <strong>SketchChord</strong>）は、以下のプライバシー保護原則に基づいて設計されています。
+      </p>
+      <ul>
+        <li>
+          <strong>100% ローカル・オンデバイス処理:</strong> CoreMIDI による鍵盤入力判定、AVAudioEngine によるリアルタイムPCM音源合成、および作成したコード進行スケッチやカスタムセットの保存はすべてお使いのデバイス内で完結します。
+        </li>
+        <li>
+          <strong>広告なし・トラッキングなし:</strong> 第三者の広告配信SDKや行動追跡アナリティクスは一切組み込んでおらず、ユーザーの演奏データや創作データを外部へ送信・販売することは決してありません。
+        </li>
+      </ul>
+      <p>
+        各アプリ固有の仕様に基づく詳細なプライバシーポリシーについては、上記グリッド内の各アプリの <strong>Privacy Policy</strong> リンクをご参照ください。
+      </p>
+    </section>
+
+    <hr class="border-gray-200" />
+
+    <section id="terms" class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215]">
+      <h2>Studio Master Terms of Use (共通利用規約)</h2>
+      <p>
+        {DEVELOPER_INFO.studioName} が Apple App Store を通じて配布する各アプリケーションは、各アプリ個別の利用規約および Apple の標準エンドユーザー使用許諾契約（Licensed Application EULA）に基づいて提供されます。
+      </p>
+      <ul>
+        <li>
+          <strong>運営・開発者:</strong> {DEVELOPER_INFO.studioName} ({DEVELOPER_INFO.jurisdiction})
+        </li>
+        <li>
+          <strong>法務・規約に関する連絡先:</strong>{' '}
+          <a href={`mailto:${DEVELOPER_INFO.contactEmail}`}>{DEVELOPER_INFO.contactEmail}</a>
+        </li>
+      </ul>
+    </section>
+  </div>
+</DashboardLayout>

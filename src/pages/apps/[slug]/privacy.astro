@@ -1,0 +1,143 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../components/AppSubNav.astro';
+import { APPS, DEVELOPER_INFO, type AppItem } from '../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} — Privacy Policy (プライバシーポリシー)`}
+  description={`Official Privacy Policy detailing local storage, audio/MIDI processing, and privacy practices for ${app.name}.`}
+  activeNav="privacy"
+  currentAppSlug={app.slug}
+>
+  <AppSubNav app={app} activeTab="privacy" />
+
+  <!-- Legal & Documentation Surface Box (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <article class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-headings:tracking-tight prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215] prose-a:underline-offset-4">
+      <div class="not-prose mb-8 pb-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-[#6B7280] font-medium">
+            Legal Documentation
+          </span>
+          <h2 class="text-xl md:text-2xl font-semibold text-[#111215] mt-0.5">
+            Privacy Policy — {app.name}
+          </h2>
+        </div>
+        <div class="text-xs text-[#6B7280]">
+          <p>Effective Date: {app.releaseDate}</p>
+          <p>Last Updated: {app.lastUpdated}</p>
+        </div>
+      </div>
+
+      <p>
+        {DEVELOPER_INFO.studioName}（以下「当方」）は、アプリケーション<strong>「{app.name}」</strong>（{app.subtitle}、以下「本アプリ」）における利用者情報の取り扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」）を定めます。
+      </p>
+      <p>
+        {app.privacySummary.overviewJa}
+      </p>
+      <p class="text-xs">
+        {app.privacySummary.overviewEn}
+      </p>
+
+      <h3>1. 取得・保存する情報と端末内処理 (Information Processed Locally)</h3>
+      <p>
+        本アプリはユーザーのプライバシー保護を最優先に設計されており、個人を特定できる情報の収集や外部サーバーへの送信は行いません。本アプリが端末内で取り扱う情報は以下の通りです：
+      </p>
+      <ul>
+        {
+          app.dataCollected.map((item) => (
+            <li>{item}</li>
+          ))
+        }
+        <li>
+          <strong>サポートへのお問い合わせ時の情報:</strong> ユーザーが電子メール（{app.supportEmail}）にて当方へお問い合わせを行われた場合、回答およびサポート対応に必要な範囲でメールアドレスおよび記載内容を拝受いたします。
+        </li>
+      </ul>
+
+      <h3>2. 情報の利用目的 (How Your Data Is Used)</h3>
+      <p>
+        本アプリ内で処理されるデータおよび設定情報は、以下の目的でのみ使用されます：
+      </p>
+      <ul>
+        {
+          app.privacySummary.purposeItemsJa.map((purpose) => (
+            <li>{purpose}</li>
+          ))
+        }
+      </ul>
+
+      <h3>3. 第三者サービスの利用・外部送信について (Third-Party Services & SDKs)</h3>
+      {
+        app.thirdPartyServices.length > 0 ? (
+          <>
+            <p>
+              本アプリには広告配信SDKや第三者の行動解析ツールは一切含まれていません。OS標準の以下のプラットフォーム機能のみを利用しています：
+            </p>
+            <ul>
+              {app.thirdPartyServices.map((service) => (
+                <li>
+                  <strong>{service.name}:</strong> {service.purpose}{' '}
+                  <a href={service.policyUrl} target="_blank" rel="noopener noreferrer">
+                    Apple プライバシーポリシーを確認
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>
+            <strong>外部送信・サードパーティSDKゼロ：</strong> 本アプリ（{app.name}）は、第三者の広告ネットワーク、アナリティクスSDK、外部データベースを一切使用していません。すべてのコード譜作成・スマートボイシング計算・PCM音源合成はお使いのAppleデバイス内で100%完結します。
+          </p>
+        )
+      }
+
+      <h3>4. データの保持および削除 (Data Retention & Deletion)</h3>
+      <ul>
+        {
+          app.privacySummary.retentionItemsJa.map((item) => (
+            <li>{item}</li>
+          ))
+        }
+      </ul>
+
+      <h3>5. お子様のプライバシー (Children’s Privacy)</h3>
+      <p>
+        本アプリは年齢を問わず安全にご利用いただける音楽学習・制作ツールであり、13歳未満のお子様を含むいかなるユーザーからも個人情報を収集・追跡することはありません。
+      </p>
+
+      <h3>6. プライバシーポリシーの改定 (Changes to This Policy)</h3>
+      <p>
+        本アプリのアップデートや法令の改正に伴い、本ポリシーを改定する場合があります。重要な変更がある場合は本ページの「Last Updated（最終更新日）」を更新して公表いたします。
+      </p>
+
+      <h3>7. お問い合わせ窓口 (Contact Us)</h3>
+      <p>
+        本ポリシーまたは「{app.name}」における情報の取り扱いに関するご質問は、下記窓口までご連絡ください：
+      </p>
+      <ul>
+        <li>
+          <strong>{app.name} 専用サポート窓口:</strong>{' '}
+          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
+        </li>
+        <li>
+          <strong>総合窓口 ({DEVELOPER_INFO.studioName}):</strong>{' '}
+          <a href={`mailto:${DEVELOPER_INFO.contactEmail}`}>{DEVELOPER_INFO.contactEmail}</a>
+        </li>
+      </ul>
+    </article>
+  </div>
+</DashboardLayout>

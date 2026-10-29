@@ -1,0 +1,123 @@
+---
+import { APPS } from '../data/apps';
+
+interface Props {
+  activeNav?: 'home' | 'apps' | 'support' | 'privacy' | 'terms' | 'legal';
+  currentAppSlug?: string;
+}
+
+const { activeNav = 'apps', currentAppSlug } = Astro.props;
+
+const navItems = [
+  {
+    id: 'home',
+    label: 'Home',
+    href: '/?view=overview',
+    icon: `<path d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5.5v-6h-5v6H4a1 1 0 01-1-1v-9.5z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+  },
+  {
+    id: 'apps',
+    label: 'Apps',
+    href: '/',
+    icon: `<rect x="3.5" y="3.5" width="7" height="7" rx="1.2" fill="currentColor"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2" fill="currentColor"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2" fill="currentColor"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2" fill="currentColor"/>`,
+  },
+  {
+    id: 'support',
+    label: 'Support',
+    href: '/support',
+    icon: `<circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.75" fill="none"/><path d="M9.5 9.5a2.5 2.5 0 014.6 1.3c0 1.5-2.1 2-2.1 3.2M12 17h.01" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>`,
+  },
+  {
+    id: 'privacy',
+    label: 'Privacy Policy',
+    href: '/legal#privacy',
+    icon: `<path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`,
+  },
+  {
+    id: 'terms',
+    label: 'Terms of Use',
+    href: '/legal#terms',
+    icon: `<path d="M7 3h7l5 5v12a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" fill="none"/><path d="M9.5 11h5M9.5 15h5M9.5 7h2" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>`,
+  },
+  {
+    id: 'legal',
+    label: 'Legal Index',
+    href: '/legal',
+    icon: `<path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="3.5" y="3.5" width="17" height="17" rx="2.5" stroke="currentColor" stroke-width="1.75" fill="none"/>`,
+  },
+];
+---
+
+<aside class="w-full lg:w-[240px] lg:shrink-0 bg-[#FAFAFA] px-3 md:px-4 pt-4 pb-6 lg:py-8">
+  <nav aria-label="Main Navigation" class="space-y-0.5">
+    {
+      navItems.map((item) => {
+        const isActive = activeNav === item.id;
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              'flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-colors',
+              isActive
+                ? 'bg-gray-200/70 text-gray-900 font-medium'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/40',
+            ]}
+          >
+            <svg
+              class:list={[
+                'w-4 h-4 shrink-0',
+                isActive ? 'text-[#111215]' : 'text-gray-500',
+              ]}
+              viewBox="0 0 24 24"
+              set:html={item.icon}
+            />
+            <span>{item.label}</span>
+          </a>
+        );
+      })
+    }
+  </nav>
+
+  <!-- Direct App Jump List (Desktop & Tablet) -->
+  <div class="mt-8 pt-6 border-t border-gray-200/60 hidden lg:block">
+    <p class="px-3 mb-2 text-[11px] font-medium uppercase tracking-wider text-gray-400">
+      iOS Applications ({APPS.length})
+    </p>
+    <ul class="space-y-0.5">
+      {
+        APPS.map((app) => {
+          const isCurrent = currentAppSlug === app.slug;
+          return (
+            <li>
+              <a
+                href={`/apps/${app.slug}`}
+                class:list={[
+                  'flex items-center gap-2.5 px-3 py-1.5 text-xs rounded-lg transition-colors',
+                  isCurrent
+                    ? 'bg-gray-200/70 text-gray-900 font-medium'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200/40',
+                ]}
+              >
+                <span
+                  class="w-4 h-4 rounded-[4px] flex items-center justify-center shrink-0 overflow-hidden border border-gray-200/60"
+                  style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
+                >
+                  {app.iconUrl ? (
+                    <img
+                      src={app.iconUrl}
+                      alt={app.name}
+                      class="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" set:html={app.iconSvg} />
+                  )}
+                </span>
+                <span class="truncate">{app.name}</span>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</aside>

@@ -1,0 +1,106 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../components/AppSubNav.astro';
+import { APPS, DEVELOPER_INFO, type AppItem } from '../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} — Terms of Use (利用規約)`}
+  description={`Official Terms of Use and End-User License Agreement (EULA) for ${app.name}.`}
+  activeNav="terms"
+  currentAppSlug={app.slug}
+>
+  <AppSubNav app={app} activeTab="terms" />
+
+  <!-- Legal & Documentation Surface Box (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <article class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-headings:tracking-tight prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215] prose-a:underline-offset-4">
+      <div class="not-prose mb-8 pb-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-[#6B7280] font-medium">
+            End-User License & Terms
+          </span>
+          <h2 class="text-xl md:text-2xl font-semibold text-[#111215] mt-0.5">
+            Terms of Use — {app.name}
+          </h2>
+        </div>
+        <div class="text-xs text-[#6B7280]">
+          <p>Effective Date: {app.releaseDate}</p>
+          <p>Last Updated: {app.lastUpdated}</p>
+        </div>
+      </div>
+
+      <p>
+        この利用規約（以下「本規約」）は、{DEVELOPER_INFO.studioName}（以下「当方」）が提供するアプリケーション<strong>「{app.name}」</strong>（{app.subtitle}、以下「本アプリ」）の利用条件を定めるものです。本アプリをダウンロード、インストール、または利用することにより、ユーザーは本規約に同意したものとみなされます。
+      </p>
+
+      <h3>1. ライセンスの許諾 (Scope of License)</h3>
+      <p>
+        {app.termsSummary.licenseScopeJa}
+      </p>
+
+      <h3>2. 料金・App内課金について (Pricing & In-App Purchases)</h3>
+      <p>
+        {app.termsSummary.iapTermsJa}
+      </p>
+      <ul>
+        <li>
+          <strong>決済および管理:</strong> App内課金の決済はすべてAppleのApp Store（StoreKit 2）を通じて安全に処理されます。
+        </li>
+        <li>
+          <strong>返金手続き:</strong> App Store上の決済に関する返金申請等については、Appleの公式窓口（<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener noreferrer">reportaproblem.apple.com</a>）の規定に従うものとします。
+        </li>
+      </ul>
+
+      <h3>3. 知的財産権およびユーザー作成データの権利 (Intellectual Property Rights)</h3>
+      <p>
+        {app.termsSummary.ipRightsJa}
+      </p>
+
+      <h3>4. 禁止事項 (Prohibited Conduct)</h3>
+      <p>
+        ユーザーは本アプリの利用にあたり、以下の行為を行ってはなりません：
+      </p>
+      <ul>
+        <li>本アプリのプログラム、音源合成エンジン、または内部データの逆コンパイル、リバースエンジニアリング、逆アセンブルを行う行為</li>
+        <li>本アプリのセキュリティ機能やApp内課金（サポーター特典等）の認証機構を不正に回避・改ざんする行為</li>
+        <li>本アプリ自体を複製・改変して第三者へ再配布・販売・貸与する行為</li>
+      </ul>
+
+      <h3>5. 免責事項・保証の否認 (Disclaimer of Warranties)</h3>
+      <p>
+        本アプリは「現状有姿（AS IS）」で提供されます。当方は、特定のMIDIハードウェア機器との完全な互換性、エラーや中断がないこと、または特定の音楽的・学習的成果を保証するものではありません。また、大音量でのオーディオ再生による聴覚や音響機器への影響について、ユーザーご自身の責任において適切な音量設定でご利用ください。
+      </p>
+
+      <h3>6. 責任の制限 (Limitation of Liability)</h3>
+      <p>
+        適用される法令で認められる最大限の範囲において、当方は本アプリの利用または利用不能に起因して生じたいかなる間接的、付随的、偶発的損害、または端末故障・データ消失等について一切の責任を負いません。
+      </p>
+
+      <h3>7. 準拠法および裁判管轄 (Governing Law & Jurisdiction)</h3>
+      <p>
+        本規約は日本法に準拠し解釈されるものとします。本アプリまたは本規約に関連して紛争が生じた場合は、{DEVELOPER_INFO.jurisdiction}を管轄する裁判所を第一審の専属的合意管轄裁判所とします。
+      </p>
+
+      <h3>8. お問い合わせ (Contact Information)</h3>
+      <p>
+        本規約に関するご質問は <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a> までご連絡ください。あわせて{' '}
+        <a href={`/apps/${app.slug}/privacy`}>{app.name} プライバシーポリシー</a> および{' '}
+        <a href={`/apps/${app.slug}/support`}>サポートページ</a> もご確認ください。
+      </p>
+    </article>
+  </div>
+</DashboardLayout>

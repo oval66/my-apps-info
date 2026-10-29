@@ -1,0 +1,98 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../components/AppSubNav.astro';
+import { APPS, type AppItem } from '../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} — App Overview`}
+  description={app.shortDescription}
+  activeNav="apps"
+  currentAppSlug={app.slug}
+>
+  <AppSubNav app={app} activeTab="overview" />
+
+  <!-- Main Surface Box -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <div class="prose prose-gray max-w-none">
+      <h2 class="text-lg font-semibold text-[#111215] mt-0 mb-3">
+        About {app.name}
+      </h2>
+      <p class="text-sm leading-relaxed text-[#6B7280] mb-8">
+        {app.longDescription}
+      </p>
+
+      <h3 class="text-base font-semibold text-[#111215] mb-3">
+        Key Features
+      </h3>
+      <ul class="space-y-2 text-sm text-[#6B7280] mb-10">
+        {
+          app.features.map((feature) => (
+            <li class="flex items-start gap-2.5">
+              <span class="text-[#111215] font-medium select-none">•</span>
+              <span>{feature}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!-- 1px Shared-Border Metadata & Quick Links Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-gray-200 bg-white mt-6">
+      <div class="border-r border-b border-gray-200 p-5">
+        <p class="text-xs text-[#6B7280] mb-1">Latest Version</p>
+        <p class="text-sm font-semibold text-[#111215]">v{app.version}</p>
+        <p class="text-[11px] text-[#6B7280] mt-1">Updated {app.lastUpdated}</p>
+      </div>
+
+      <div class="border-r border-b border-gray-200 p-5">
+        <p class="text-xs text-[#6B7280] mb-1">Compatibility</p>
+        <p class="text-sm font-semibold text-[#111215]">{app.iosRequirement}</p>
+        <p class="text-[11px] text-[#6B7280] mt-1">iPhone & iPad Native</p>
+      </div>
+
+      <div class="border-r border-b border-gray-200 p-5">
+        <p class="text-xs text-[#6B7280] mb-1">Category</p>
+        <p class="text-sm font-semibold text-[#111215]">{app.category}</p>
+        <p class="text-[11px] text-[#6B7280] mt-1">Released {app.releaseDate}</p>
+      </div>
+
+      <div class="border-r border-b border-gray-200 p-5">
+        <p class="text-xs text-[#6B7280] mb-1">Support & Legal</p>
+        <div class="flex flex-col gap-1 mt-1.5 text-xs">
+          <a
+            href={`/apps/${app.slug}/support`}
+            class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+          >
+            Support & FAQ →
+          </a>
+          <a
+            href={`/apps/${app.slug}/privacy`}
+            class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+          >
+            Privacy Policy →
+          </a>
+          <a
+            href={`/apps/${app.slug}/terms`}
+            class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+          >
+            Terms of Use →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

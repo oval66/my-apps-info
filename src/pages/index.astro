@@ -1,0 +1,125 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import AppCard from '../components/AppCard.astro';
+import { APPS, CATEGORIES } from '../data/apps';
+---
+
+<DashboardLayout
+  title="Apps — iOS App Directory & Legal Portal"
+  description="Elevate your iOS experience with our native apps, support guides, privacy policies, and terms of use."
+  activeNav="apps"
+>
+  <!-- Page Header -->
+  <div class="mb-5">
+    <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-[#111215]">
+      Apps
+    </h1>
+    <p class="text-sm font-normal text-[#6B7280] mt-1">
+      Elevate your iOS experience with our native apps, support resources, and legal documentation.
+    </p>
+  </div>
+
+  <!-- Filter Tabs (Category Pills) -->
+  <div
+    role="tablist"
+    aria-label="Filter applications by category"
+    class="flex flex-wrap items-center gap-1 mb-5"
+  >
+    {
+      CATEGORIES.map((category, index) => (
+        <button
+          type="button"
+          role="tab"
+          aria-selected={index === 0 ? 'true' : 'false'}
+          data-filter-btn={category}
+          class:list={[
+            'px-3 py-1.5 text-xs rounded-md transition-colors cursor-pointer select-none',
+            index === 0
+              ? 'bg-gray-200/80 text-gray-900 font-medium'
+              : 'text-gray-600 hover:text-gray-900',
+          ]}
+        >
+          {category}
+        </button>
+      ))
+    }
+  </div>
+
+  <!-- The 1px Shared-Border App Grid (Specification 4.C) -->
+  <section
+    id="apps-grid"
+    aria-label="iOS Applications Grid"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-gray-200"
+  >
+    {APPS.map((app) => <AppCard app={app} />)}
+  </section>
+
+  <script>
+    function updateGridTopBorders() {
+      const grid = document.getElementById('apps-grid');
+      if (!grid) return;
+      const visibleCards = Array.from(
+        grid.querySelectorAll<HTMLElement>('.app-grid-cell:not(.hidden)')
+      );
+      if (visibleCards.length === 0) return;
+
+      const firstRowTop = visibleCards[0].offsetTop;
+      visibleCards.forEach((card) => {
+        if (Math.abs(card.offsetTop - firstRowTop) <= 2) {
+          card.classList.add('border-t');
+        } else {
+          card.classList.remove('border-t');
+        }
+      });
+    }
+
+    function initCategoryFilter() {
+      const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter-btn]');
+      const cards = document.querySelectorAll<HTMLElement>('.app-grid-cell');
+
+      const activeClasses = ['bg-gray-200/80', 'text-gray-900', 'font-medium'];
+      const inactiveClasses = ['text-gray-600', 'hover:text-gray-900'];
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const selected = btn.getAttribute('data-filter-btn') || 'All';
+
+          // Update active button state
+          buttons.forEach((b) => {
+            const isTarget = b === btn;
+            b.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+            if (isTarget) {
+              b.classList.remove(...inactiveClasses);
+              b.classList.add(...activeClasses);
+            } else {
+              b.classList.remove(...activeClasses);
+              b.classList.add(...inactiveClasses);
+            }
+          });
+
+          // Filter cards
+          cards.forEach((card) => {
+            const category = card.getAttribute('data-category');
+            const tags = (card.getAttribute('data-tags') || '').split(',');
+            if (selected === 'All' || category === selected || tags.includes(selected)) {
+              card.classList.remove('hidden');
+              card.classList.add('flex');
+            } else {
+              card.classList.remove('flex');
+              card.classList.add('hidden');
+            }
+          });
+
+          updateGridTopBorders();
+        });
+      });
+
+      updateGridTopBorders();
+      window.addEventListener('resize', updateGridTopBorders);
+    }
+
+    initCategoryFilter();
+    document.addEventListener('astro:after-swap', initCategoryFilter);
+  </script>
+</DashboardLayout>
+

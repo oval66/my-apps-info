@@ -1,0 +1,125 @@
+---
+import type { AppItem } from '../data/apps';
+
+interface Props {
+  app: AppItem;
+  activeTab: 'overview' | 'support' | 'privacy' | 'terms';
+}
+
+const { app, activeTab } = Astro.props;
+
+const subTabs = [
+  { id: 'overview', label: 'Overview', href: `/apps/${app.slug}` },
+  { id: 'support', label: 'Support & FAQ', href: `/apps/${app.slug}/support` },
+  { id: 'privacy', label: 'Privacy Policy', href: `/apps/${app.slug}/privacy` },
+  { id: 'terms', label: 'Terms of Use', href: `/apps/${app.slug}/terms` },
+] as const;
+---
+
+<div class="mb-6">
+  <!-- Breadcrumb -->
+  <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-xs text-[#6B7280]">
+    <a href="/" class="underline decoration-gray-400 underline-offset-2 hover:text-black">
+      Apps
+    </a>
+    <span class="text-gray-300">/</span>
+    <a href={`/apps/${app.slug}`} class="underline decoration-gray-400 underline-offset-2 hover:text-black">
+      {app.name}
+    </a>
+    {
+      activeTab !== 'overview' && (
+        <>
+          <span class="text-gray-300">/</span>
+          <span class="text-[#111215] font-medium">
+            {subTabs.find((t) => t.id === activeTab)?.label}
+          </span>
+        </>
+      )
+    }
+  </nav>
+
+  <!-- App Identity Header -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5">
+    <div class="flex items-center gap-4">
+      <div
+        class="w-14 h-14 rounded-2xl shadow-sm flex items-center justify-center shrink-0 overflow-hidden border border-gray-200/60"
+        style={`background-color: ${app.iconBg}; color: ${app.iconFg ?? '#FFFFFF'};`}
+      >
+        {
+          app.iconUrl ? (
+            <img
+              src={app.iconUrl}
+              alt={`${app.name} App Icon`}
+              class="w-full h-full object-cover"
+            />
+          ) : (
+            <svg class="w-7 h-7" viewBox="0 0 24 24" set:html={app.iconSvg} />
+          )
+        }
+      </div>
+      <div>
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-[#111215]">
+            {app.name}
+          </h1>
+          <span class="px-2 py-0.5 text-[11px] font-medium bg-gray-200/70 text-[#111215] rounded-md">
+            v{app.version}
+          </span>
+          {
+            app.tags.map((tag) => (
+              <span class="px-2 py-0.5 text-[11px] text-[#6B7280] border border-gray-200 bg-white rounded-md">
+                {tag}
+              </span>
+            ))
+          }
+          {
+            app.badges?.map((badge) => (
+              <span class="px-2 py-0.5 text-[11px] font-medium text-gray-500 bg-gray-100/90 border border-gray-200/80 rounded-md">
+                {badge}
+              </span>
+            ))
+          }
+        </div>
+        <p class="text-sm font-normal text-[#6B7280] mt-1">
+          {app.subtitle}
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2.5 self-start sm:self-center">
+      <a
+        href={app.appStoreUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-white bg-[#111215] hover:bg-black rounded-lg transition-colors"
+      >
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.33c.64-.78 1.08-1.86.96-2.94-.93.04-2.06.62-2.72 1.4-.58.68-1.1 1.79-.96 2.84 1.04.08 2.08-.52 2.72-1.3z"/>
+        </svg>
+        <span>App Store</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sub-navigation Filter Tabs (Specification 4.B style) -->
+  <div class="flex flex-wrap items-center gap-1 pt-1">
+    {
+      subTabs.map((tab) => {
+        const isActive = activeTab === tab.id;
+        return (
+          <a
+            href={tab.href}
+            class:list={[
+              'px-3 py-1.5 text-xs rounded-md transition-colors',
+              isActive
+                ? 'bg-gray-200/80 text-gray-900 font-medium'
+                : 'text-gray-600 hover:text-gray-900',
+            ]}
+          >
+            {tab.label}
+          </a>
+        );
+      })
+    }
+  </div>
+</div>

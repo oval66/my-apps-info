@@ -1,0 +1,113 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../components/AppSubNav.astro';
+import { APPS, DEVELOPER_INFO, type AppItem } from '../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} Support — Help & FAQ`}
+  description={`Official customer support, troubleshooting guide, and frequently asked questions for ${app.name} on iOS.`}
+  activeNav="support"
+  currentAppSlug={app.slug}
+>
+  <AppSubNav app={app} activeTab="support" />
+
+  <!-- Legal & Documentation Surface Box (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <article class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-headings:tracking-tight prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215] prose-a:underline-offset-4">
+      <h2>{app.name} Support Center (サポート窓口)</h2>
+      <p>
+        Thank you for using <strong>{app.name}</strong> (Current Version: <code>v{app.version}</code>, requires {app.iosRequirement}). Below you will find answers to frequently asked questions, troubleshooting steps, and direct contact information for our support team.
+      </p>
+      <p>
+        <strong>{app.name}</strong> をご利用いただきありがとうございます。本ページではよくあるご質問（FAQ）、トラブルシューティング手順、および直接のお問い合わせ窓口をご案内しています。
+      </p>
+
+      <hr />
+
+      <h3>1. Frequently Asked Questions (よくあるご質問)</h3>
+      <div class="not-prose mt-4 mb-8 border-t border-l border-gray-200 bg-white">
+        {
+          app.faqs.map((faq) => (
+            <div class="border-r border-b border-gray-200 p-6">
+              <h4 class="text-sm font-semibold text-[#111215] mb-2">
+                Q. {faq.question}
+              </h4>
+              <p class="text-xs md:text-sm leading-relaxed text-[#6B7280]">
+                {faq.answer}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <h3>2. Purchases & Subscription Restoration (購入の復元・解約について)</h3>
+      <ul>
+        <li>
+          <strong>Restoring Purchases (購入の復元):</strong> If you reinstalled {app.name} or switched to a new iPhone/iPad, open the in-app Settings screen and tap <em>"Restore Purchases"</em> while signed into the same Apple ID used for the original transaction.
+        </li>
+        <li>
+          <strong>Managing Subscriptions (サブスクリプションの管理):</strong> All billing is handled securely by Apple. You can view, modify, or cancel active subscriptions at any time via <strong>iOS Settings &gt; [Your Name] &gt; Subscriptions</strong>.
+        </li>
+        <li>
+          <strong>Pricing Model:</strong> {app.inAppPurchases}
+        </li>
+      </ul>
+
+      <h3>3. Direct Contact & Bug Reports (お問い合わせ)</h3>
+      <p>
+        If your issue is not resolved above, please email our support desk. Including your device model (e.g., iPhone 16 Pro), iOS version, and app version (<code>v{app.version}</code>) helps us assist you faster.
+      </p>
+
+      <div class="not-prose mt-4 grid grid-cols-1 md:grid-cols-2 border-t border-l border-gray-200 bg-white">
+        <div class="border-r border-b border-gray-200 p-6">
+          <p class="text-xs text-[#6B7280] mb-1">Dedicated App Support Email</p>
+          <a
+            href={`mailto:${app.supportEmail}?subject=${encodeURIComponent(`[${app.name} v${app.version}] Support Inquiry`)}`}
+            class="text-sm font-semibold text-[#111215] underline decoration-gray-400 underline-offset-4 hover:text-black break-all"
+          >
+            {app.supportEmail}
+          </a>
+          <p class="text-xs text-[#6B7280] mt-2">
+            Typical response time: Within 24–48 business hours (Mon–Fri).
+          </p>
+        </div>
+
+        <div class="border-r border-b border-gray-200 p-6">
+          <p class="text-xs text-[#6B7280] mb-1">Related Legal Documents</p>
+          <div class="flex flex-col gap-1.5 mt-2 text-xs">
+            <a
+              href={`/apps/${app.slug}/privacy`}
+              class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+            >
+              {app.name} Privacy Policy (プライバシーポリシー)
+            </a>
+            <a
+              href={`/apps/${app.slug}/terms`}
+              class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+            >
+              {app.name} Terms of Use (利用規約)
+            </a>
+            <span class="text-[#6B7280]">
+              Developer: {DEVELOPER_INFO.studioName} ({DEVELOPER_INFO.jurisdiction})
+            </span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</DashboardLayout>
+
