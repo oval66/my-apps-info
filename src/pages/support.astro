@@ -84,8 +84,7 @@ import { APPS, DEVELOPER_INFO } from '../data/apps';
     <div class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215]">
       <h2 class="mt-0">General Inquiries & App Store Support (総合お問い合わせ窓口)</h2>
       <p>
-        <strong>ChordTrainer</strong> および <strong>SketchChord</strong> に関するご意見・不具合報告・機能リクエストは、各アプリの専用サポートページをご確認いただくか、総合窓口{' '}
-        <a href={`mailto:${DEVELOPER_INFO.contactEmail}`}>{DEVELOPER_INFO.contactEmail}</a> までお気軽にお問い合わせください。
+        <strong>ChordTrainer</strong> および <strong>SketchChord</strong> に関するご意見・不具合報告・機能リクエストは、下記の専用お問い合わせフォームより直接お送りいただけます。
       </p>
       <ul>
         <li>
@@ -107,5 +106,77 @@ import { APPS, DEVELOPER_INFO } from '../data/apps';
         </li>
       </ul>
     </div>
+
+    <!-- Embedded Tally Support Form -->
+    <div class="mt-8 pt-8 border-t border-gray-200">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h3 class="text-base font-semibold text-[#111215]">
+            お問い合わせフォーム (Contact Form)
+          </h3>
+          <p class="text-xs text-[#6B7280] mt-0.5">
+            ご質問・不具合報告・ご要望をこちらのフォームから直接送信できます。
+          </p>
+        </div>
+        <a
+          href="https://tally.so/r/o99Ykb"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-[#111215] bg-gray-100 hover:bg-gray-200/80 border border-gray-200 rounded-lg transition-colors self-start sm:self-auto shrink-0"
+        >
+          <span>別タブでフォームを開く</span>
+          <svg class="w-3.5 h-3.5 text-[#6B7280]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H8M17 7V16" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+
+      <div class="bg-white border border-gray-200 p-6 md:p-8">
+        <iframe
+          data-tally-src="https://tally.so/embed/o99Ykb?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+          loading="lazy"
+          width="100%"
+          height="284"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          title="お問い合わせフォーム (Contact Support)"
+        ></iframe>
+      </div>
+
+      <p class="text-xs text-[#6B7280] mt-3">
+        ※フォームが表示されない場合は{' '}
+        <a
+          href={`mailto:${DEVELOPER_INFO.contactEmail}`}
+          class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+        >
+          {DEVELOPER_INFO.contactEmail}
+        </a>{' '}
+        まで直接メールでお送りください
+      </p>
+    </div>
   </div>
+
+  <script is:inline>
+    var d = document,
+      w = "https://tally.so/widgets/embed.js",
+      v = function () {
+        if (typeof Tally !== "undefined") {
+          Tally.loadEmbeds();
+        } else {
+          d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (e) {
+            e.src = e.dataset.tallySrc;
+          });
+        }
+      };
+    if (typeof Tally !== "undefined") {
+      v();
+    } else if (d.querySelector('script[src="' + w + '"]') == null) {
+      var s = d.createElement("script");
+      s.src = w;
+      s.onload = v;
+      s.onerror = v;
+      d.body.appendChild(s);
+    }
+  </script>
 </DashboardLayout>

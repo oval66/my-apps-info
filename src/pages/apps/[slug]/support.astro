@@ -69,12 +69,60 @@ const { app } = Astro.props;
 
       <h3>3. Direct Contact & Bug Reports (お問い合わせ)</h3>
       <p>
-        If your issue is not resolved above, please email our support desk. Including your device model (e.g., iPhone 16 Pro), iOS version, and app version (<code>v{app.version}</code>) helps us assist you faster.
+        上記FAQで解決しない場合や不具合のご報告・機能リクエストは、下記のお問い合わせフォームよりお送りください。ご利用端末（例：iPhone 16 Pro / iPad Air）、iOSバージョン、アプリのバージョン（<code>v{app.version}</code>）をご記載いただくとスムーズです。
       </p>
+
+      <div class="not-prose mt-4 mb-6">
+        <div class="bg-white border border-gray-200 p-6 md:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 mb-6 border-b border-gray-200">
+            <div>
+              <h4 class="text-sm font-semibold text-[#111215]">
+                {app.name} お問い合わせフォーム
+              </h4>
+              <p class="text-xs text-[#6B7280] mt-0.5">
+                ページ内で直接入力・送信するか、右のボタンから専用フォームを開いて送信できます。
+              </p>
+            </div>
+            <a
+              href="https://tally.so/r/o99Ykb"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-[#111215] hover:bg-black rounded-lg transition-colors self-start sm:self-auto shrink-0"
+            >
+              <span>お問い合わせフォームを開く</span>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H8M17 7V16" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          <iframe
+            data-tally-src="https://tally.so/embed/o99Ykb?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy"
+            width="100%"
+            height="284"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title={`${app.name} お問い合わせフォーム`}
+          ></iframe>
+        </div>
+
+        <p class="text-xs text-[#6B7280] mt-2.5">
+          ※フォームが表示されない場合は{' '}
+          <a
+            href={`mailto:${app.supportEmail}?subject=${encodeURIComponent(`[${app.name} v${app.version}] Support Inquiry`)}`}
+            class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+          >
+            {app.supportEmail}
+          </a>{' '}
+          まで直接メールでお送りください
+        </p>
+      </div>
 
       <div class="not-prose mt-4 grid grid-cols-1 md:grid-cols-2 border-t border-l border-gray-200 bg-white">
         <div class="border-r border-b border-gray-200 p-6">
-          <p class="text-xs text-[#6B7280] mb-1">Dedicated App Support Email</p>
+          <p class="text-xs text-[#6B7280] mb-1">Direct Support Email (メール窓口)</p>
           <a
             href={`mailto:${app.supportEmail}?subject=${encodeURIComponent(`[${app.name} v${app.version}] Support Inquiry`)}`}
             class="text-sm font-semibold text-[#111215] underline decoration-gray-400 underline-offset-4 hover:text-black break-all"
@@ -109,5 +157,28 @@ const { app } = Astro.props;
       </div>
     </article>
   </div>
+
+  <script is:inline>
+    var d = document,
+      w = "https://tally.so/widgets/embed.js",
+      v = function () {
+        if (typeof Tally !== "undefined") {
+          Tally.loadEmbeds();
+        } else {
+          d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (e) {
+            e.src = e.dataset.tallySrc;
+          });
+        }
+      };
+    if (typeof Tally !== "undefined") {
+      v();
+    } else if (d.querySelector('script[src="' + w + '"]') == null) {
+      var s = d.createElement("script");
+      s.src = w;
+      s.onload = v;
+      s.onerror = v;
+      d.body.appendChild(s);
+    }
+  </script>
 </DashboardLayout>
 
