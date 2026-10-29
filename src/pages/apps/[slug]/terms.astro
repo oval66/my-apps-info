@@ -96,8 +96,17 @@ const { app } = Astro.props;
       </p>
 
       <h3>8. お問い合わせ (Contact Information)</h3>
+      <ul>
+        <li>
+          <strong>運営・開発者 (Developer):</strong> {DEVELOPER_INFO.studioName}
+        </li>
+        <li>
+          <strong>連絡先メールアドレス (Contact Email):</strong>{' '}
+          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
+        </li>
+      </ul>
       <p>
-        本規約に関するご質問は <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a> までご連絡ください。あわせて{' '}
+        本規約に関するご質問は上記メールアドレスまでご連絡ください。あわせて{' '}
         <a href={`/apps/${app.slug}/privacy`}>{app.name} プライバシーポリシー</a> および{' '}
         <a href={`/apps/${app.slug}/support`}>サポートページ</a> もご確認ください。
       </p>

@@ -130,12 +130,11 @@ const { app } = Astro.props;
       </p>
       <ul>
         <li>
-          <strong>{app.name} 専用サポート窓口:</strong>{' '}
-          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
+          <strong>運営・開発者 (Developer):</strong> {DEVELOPER_INFO.studioName}
         </li>
         <li>
-          <strong>総合窓口 ({DEVELOPER_INFO.studioName}):</strong>{' '}
-          <a href={`mailto:${DEVELOPER_INFO.contactEmail}`}>{DEVELOPER_INFO.contactEmail}</a>
+          <strong>連絡先メールアドレス (Contact Email):</strong>{' '}
+          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
         </li>
       </ul>
     </article>

@@ -45,10 +45,10 @@ export interface AppItem {
 export const CATEGORIES: AppCategory[] = ['All', 'Music', 'Education', 'Creativity'];
 
 export const DEVELOPER_INFO = {
-  studioName: 'MyApps Studio',
-  handle: 'Jun',
+  studioName: 'Junichi MIZUKAMI',
+  handle: 'Junichi MIZUKAMI',
   status: 'Live',
-  contactEmail: 'support@myapps-portal.example.com',
+  contactEmail: 'app-support@250tr.com',
   jurisdiction: 'Tokyo, Japan',
   established: '2026',
 };
@@ -65,7 +65,7 @@ export const APPS: AppItem[] = [
     releaseDate: '2026-10-01',
     lastUpdated: '2026-10-29',
     appStoreUrl: 'https://apps.apple.com',
-    supportEmail: 'chordtrainer-support@myapps-portal.example.com',
+    supportEmail: 'app-support@250tr.com',
     badges: ['Universal', 'CoreMIDI対応'],
     iconUrl: '/icons/chordtrainer.png',
     iconBg: '#3B82F6',
@@ -153,7 +153,7 @@ export const APPS: AppItem[] = [
     releaseDate: '2026-10-01',
     lastUpdated: '2026-10-29',
     appStoreUrl: 'https://apps.apple.com',
-    supportEmail: 'sketchchord-support@myapps-portal.example.com',
+    supportEmail: 'app-support@250tr.com',
     badges: ['Universal', 'AVAudioEngine対応'],
     iconUrl: '/icons/sketchchord.png',
     iconBg: '#2563EB',
