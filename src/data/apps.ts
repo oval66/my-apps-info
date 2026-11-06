@@ -1,4 +1,15 @@
-export type AppCategory = 'All' | 'Music' | 'Lifestyle' | 'Education' | 'Creativity' | 'Utility';
+import type { ImageMetadata } from 'astro';
+import chordTrainerIcon from '../assets/icons/chordtrainer.png';
+import sketchChordIcon from '../assets/icons/sketchchord.png';
+import menuCartIcon from '../assets/icons/menucart.png';
+
+export type AppCategory =
+  | 'All'
+  | 'Music'
+  | 'Lifestyle'
+  | 'Education'
+  | 'Creativity'
+  | 'Utility';
 
 export interface FAQItem {
   question: string;
@@ -17,8 +28,8 @@ export interface AppItem {
   lastUpdated: string;
   appStoreUrl: string;
   supportEmail: string;
-  badge?: string;
-  iconUrl: string;
+  badges?: string[];
+  iconUrl: ImageMetadata;
   iconBg: string;
   iconFg?: string;
   iconSvg?: string;
@@ -52,10 +63,10 @@ export const CATEGORIES: AppCategory[] = [
 ];
 
 export const DEVELOPER_INFO = {
-  studioName: 'MyApps Studio',
-  handle: 'Jun',
+  studioName: 'Junichi MIZUKAMI',
+  handle: 'Junichi MIZUKAMI',
   status: 'Live',
-  contactEmail: 'support@myapps-portal.example.com',
+  contactEmail: 'app-support@250tr.com',
   jurisdiction: 'Tokyo, Japan',
   established: '2026',
 };
@@ -72,9 +83,9 @@ export const APPS: AppItem[] = [
     releaseDate: '2026-10-01',
     lastUpdated: '2026-10-29',
     appStoreUrl: 'https://apps.apple.com',
-    supportEmail: 'chordtrainer-support@myapps-portal.example.com',
-    badge: 'CoreMIDI対応',
-    iconUrl: '/icons/chordtrainer.png',
+    supportEmail: 'app-support@250tr.com',
+    badges: ['Universal', 'CoreMIDI対応'],
+    iconUrl: chordTrainerIcon,
     iconBg: '#3B82F6',
     shortDescription:
       'MIDIキーボードを繋いでピアノのコード・ボイシング・コード進行の「瞬発力」をゲーム感覚で鍛え上げる実践的トレーニングアプリ。完全無料・広告なし。',
@@ -161,9 +172,9 @@ export const APPS: AppItem[] = [
     releaseDate: '2026-10-01',
     lastUpdated: '2026-10-29',
     appStoreUrl: 'https://apps.apple.com',
-    supportEmail: 'sketchchord-support@myapps-portal.example.com',
-    badge: 'Universal (iOS & Mac)',
-    iconUrl: '/icons/sketchchord.png',
+    supportEmail: 'app-support@250tr.com',
+    badges: ['Universal', 'AVAudioEngine対応'],
+    iconUrl: sketchChordIcon,
     iconBg: '#2563EB',
     shortDescription:
       '手書きリードシート（コード譜）のような五線譜UI上で、1小節4拍のスロットにコードを直感的に並べて試聴・スケッチできる作曲アシスタントアプリ。',
@@ -242,9 +253,9 @@ export const APPS: AppItem[] = [
     releaseDate: '2026-11-06',
     lastUpdated: '2026-11-06',
     appStoreUrl: 'https://apps.apple.com',
-    supportEmail: 'menucart-support@myapps-portal.example.com',
-    badge: 'Gemini AI対応',
-    iconUrl: '/icons/menucart.png',
+    supportEmail: 'app-support@250tr.com',
+    badges: ['Universal', 'Gemini AI対応'],
+    iconUrl: menuCartIcon,
     iconBg: '#0DA673',
     shortDescription:
       'レシピURLからGemini AIが材料・分量を自動抽出。1週間分の献立を人数に合わせて自動スケーリングし、スーパーの売場別買い物リストを瞬時に合算します。',
