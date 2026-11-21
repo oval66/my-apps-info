@@ -1,0 +1,116 @@
+---
+import DashboardLayout from '../../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../../components/AppSubNav.astro';
+import { APPS, DEVELOPER_INFO, type AppItem } from '../../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.filter((app) => app.subtitleEn).map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} — Terms of Use`}
+  description={`Official Terms of Use and End-User License Agreement (EULA) for ${app.name}.`}
+  activeNav="terms"
+  currentAppSlug={app.slug}
+  lang="en"
+>
+  <AppSubNav app={app} activeTab="terms" locale="en" />
+
+  <!-- Legal & Documentation Surface Box (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <article class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-headings:tracking-tight prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215] prose-a:underline-offset-4">
+      <div class="not-prose mb-8 pb-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-[#6B7280] font-medium">
+            End-User License & Terms
+          </span>
+          <h2 class="text-xl md:text-2xl font-semibold text-[#111215] mt-0.5">
+            Terms of Use — {app.name}
+          </h2>
+        </div>
+        <div class="text-xs text-[#6B7280]">
+          <p>Effective Date: {app.releaseDate}</p>
+          <p>Last Updated: {app.lastUpdated}</p>
+        </div>
+      </div>
+
+      <p>
+        These Terms of Use (these “Terms”) set forth the conditions for using the application <strong>“{app.name}”</strong> ({app.subtitleEn}, the “App”) provided by {DEVELOPER_INFO.studioName} (the “Developer”). By downloading, installing, or using the App, you are deemed to have agreed to these Terms.
+      </p>
+
+      <h3>1. Scope of License</h3>
+      <p>
+        {app.termsSummary.licenseScopeEn}
+      </p>
+
+      <h3>2. Pricing & In-App Purchases</h3>
+      <p>
+        {app.termsSummary.iapTermsEn}
+      </p>
+      <ul>
+        <li>
+          <strong>Payment and Management:</strong> All in-app purchase payments are processed securely through Apple’s App Store (StoreKit 2).
+        </li>
+        <li>
+          <strong>Refunds:</strong> Requests for refunds of App Store payments are subject to the rules of Apple’s official support channel (<a href="https://reportaproblem.apple.com" target="_blank" rel="noopener noreferrer">reportaproblem.apple.com</a>).
+        </li>
+      </ul>
+
+      <h3>3. Intellectual Property Rights</h3>
+      <p>
+        {app.termsSummary.ipRightsEn}
+      </p>
+
+      <h3>4. Prohibited Conduct</h3>
+      <p>
+        In using the App, you must not engage in the following conduct:
+      </p>
+      <ul>
+        <li>Decompiling, reverse engineering, or disassembling the App’s programs, sound synthesis engine, or internal data</li>
+        <li>Fraudulently circumventing or tampering with the App’s security features or the authentication mechanisms of in-app purchases (supporter perks, etc.)</li>
+        <li>Copying or modifying the App itself and redistributing, selling, or lending it to third parties</li>
+      </ul>
+
+      <h3>5. Disclaimer of Warranties</h3>
+      <p>
+        The App is provided “AS IS.” The Developer makes no guarantees regarding complete compatibility with specific hardware devices, freedom from errors or interruptions, or any specific musical or educational outcomes. In addition, please use appropriate volume settings at your own responsibility regarding the effects of loud audio playback on hearing and audio equipment.
+      </p>
+
+      <h3>6. Limitation of Liability</h3>
+      <p>
+        To the maximum extent permitted by applicable law, the Developer shall not be liable for any indirect, incidental, or consequential damages, or for device failures or data loss, arising from the use of or inability to use the App.
+      </p>
+
+      <h3>7. Governing Law & Jurisdiction</h3>
+      <p>
+        These Terms shall be governed by and construed in accordance with the laws of Japan. In the event of any dispute arising in connection with the App or these Terms, the courts with jurisdiction over {DEVELOPER_INFO.jurisdiction} shall have exclusive jurisdiction as the court of first instance.
+      </p>
+
+      <h3>8. Contact Information</h3>
+      <ul>
+        <li>
+          <strong>Developer:</strong> {DEVELOPER_INFO.studioName}
+        </li>
+        <li>
+          <strong>Contact Email:</strong>{' '}
+          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
+        </li>
+      </ul>
+      <p>
+        If you have any questions about these Terms, please contact us at the email address above. Please also see the{' '}
+        <a href={`/en/apps/${app.slug}/privacy`}>{app.name} Privacy Policy</a> and the{' '}
+        <a href={`/en/apps/${app.slug}/support`}>Support page</a>.
+      </p>
+    </article>
+  </div>
+</DashboardLayout>

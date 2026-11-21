@@ -5,26 +5,31 @@ import type { AppItem } from '../data/apps';
 interface Props {
   app: AppItem;
   activeTab: 'overview' | 'support' | 'privacy' | 'terms';
+  locale?: 'ja' | 'en';
 }
 
-const { app, activeTab } = Astro.props;
+const { app, activeTab, locale = 'ja' } = Astro.props;
+
+const basePath = locale === 'en' ? `/en/apps/${app.slug}` : `/apps/${app.slug}`;
+const tabSuffix = activeTab === 'overview' ? '' : `/${activeTab}`;
+const counterpartHref = locale === 'en' ? `/apps/${app.slug}${tabSuffix}` : `/en/apps/${app.slug}${tabSuffix}`;
 
 const subTabs = [
-  { id: 'overview', label: 'Overview', href: `/apps/${app.slug}` },
-  { id: 'support', label: 'Support & FAQ', href: `/apps/${app.slug}/support` },
-  { id: 'privacy', label: 'Privacy Policy', href: `/apps/${app.slug}/privacy` },
-  { id: 'terms', label: 'Terms of Use', href: `/apps/${app.slug}/terms` },
+  { id: 'overview', label: 'Overview', href: basePath },
+  { id: 'support', label: 'Support & FAQ', href: `${basePath}/support` },
+  { id: 'privacy', label: 'Privacy Policy', href: `${basePath}/privacy` },
+  { id: 'terms', label: 'Terms of Use', href: `${basePath}/terms` },
 ] as const;
 ---
 
 <div class="mb-6">
   <!-- Breadcrumb -->
   <nav aria-label="Breadcrumb" class="mb-4 flex items-center gap-2 text-xs text-[#6B7280]">
-    <a href="/" class="underline decoration-gray-400 underline-offset-2 hover:text-black">
+    <a href={locale === 'en' ? '/en' : '/'} class="underline decoration-gray-400 underline-offset-2 hover:text-black">
       Apps
     </a>
     <span class="text-gray-300">/</span>
-    <a href={`/apps/${app.slug}`} class="underline decoration-gray-400 underline-offset-2 hover:text-black">
+    <a href={basePath} class="underline decoration-gray-400 underline-offset-2 hover:text-black">
       {app.name}
     </a>
     {
@@ -84,7 +89,7 @@ const subTabs = [
           }
         </div>
         <p class="text-sm font-normal text-[#6B7280] mt-1">
-          {app.subtitle}
+          {locale === 'en' ? (app.subtitleEn ?? app.subtitle) : app.subtitle}
         </p>
       </div>
     </div>
@@ -123,6 +128,16 @@ const subTabs = [
           </a>
         );
       })
+    }
+    {
+      app.subtitleEn && (
+        <a
+          href={counterpartHref}
+          class="ml-auto px-3 py-1.5 text-xs text-gray-600 underline decoration-gray-400 underline-offset-2 hover:text-gray-900"
+        >
+          {locale === 'en' ? '日本語' : 'English'}
+        </a>
+      )
     }
   </div>
 </div>

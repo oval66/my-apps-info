@@ -38,19 +38,31 @@ export interface AppItem {
   features: string[];
   faqs: FAQItem[];
   dataCollected: string[];
-  thirdPartyServices: { name: string; purpose: string; policyUrl: string }[];
+  thirdPartyServices: { name: string; purpose: string; purposeEn?: string; policyUrl: string }[];
   inAppPurchases: string;
   restoreNoteEn?: string;
+  subtitleEn?: string;
+  shortDescriptionEn?: string;
+  longDescriptionEn?: string;
+  featuresEn?: string[];
+  faqsEn?: FAQItem[];
+  dataCollectedEn?: string[];
+  inAppPurchasesEn?: string;
   privacySummary: {
     overviewJa: string;
     overviewEn: string;
     purposeItemsJa: string[];
     retentionItemsJa: string[];
+    purposeItemsEn?: string[];
+    retentionItemsEn?: string[];
   };
   termsSummary: {
     licenseScopeJa: string;
     iapTermsJa: string;
     ipRightsJa: string;
+    licenseScopeEn?: string;
+    iapTermsEn?: string;
+    ipRightsEn?: string;
   };
 }
 
@@ -133,6 +145,8 @@ export const APPS: AppItem[] = [
         name: 'Apple StoreKit 2 (App Store In-App Purchase)',
         purpose:
           '開発者応援チップ（¥100）の決済処理およびサポーター特典（チェンバロ配色鍵盤）の購入復元・検証にのみ使用します。',
+        purposeEn:
+          'Used only to process the developer supporter tip (¥100) and to restore and verify the supporter perk (Harpsichord color keyboard).',
         policyUrl: 'https://www.apple.com/legal/privacy/',
       },
     ],
@@ -140,6 +154,49 @@ export const APPS: AppItem[] = [
       'アプリの全トレーニング機能は完全無料・広告なしでご利用いただけます。任意の開発者応援チップ「コーヒーをごちそう（¥100 / StoreKit 2 消耗型App内課金）」をご購入いただくと、サポーター特典としてクラウンバッジおよび「チェンバロ配色鍵盤（白黒反転）」テーマがアンロックされます。',
     restoreNoteEn:
       'If you reinstalled ChordTrainer or switched to a new iPhone/iPad, open the Settings & MIDI Assignment screen （設定・MIDI割当） and tap 「購入情報を復元」 (Restore Purchases) while signed in with the same Apple ID used for the original purchase.',
+    subtitleEn: 'MIDI piano & voicing practice',
+    shortDescriptionEn:
+      'Connect a MIDI keyboard and build lightning-fast reflexes for piano chords, voicings, and progressions — game-style, hands-on training. Completely free, no ads.',
+    longDescriptionEn:
+      'Designed for keyboardists, composers, and music producers who feel that “I learned the chords from theory books, but my fingers freeze at the keyboard,” or who want to move through classic jazz and pop progressions smoothly with both hands. ChordTrainer detects the notes you play on a USB or Bluetooth MIDI keyboard (Apple CoreMIDI) with zero latency and checks them against the correct chord in real time. A large on-screen touch keyboard is also built in, so you can practice voicings seriously with just an iPhone, iPad, or Mac.',
+    featuresEn: [
+      'Apple CoreMIDI support: notes from USB / Bluetooth MIDI keyboards are judged in real time with zero latency',
+      'Four practice modes: “All (Random),” “Progressions,” “Custom (My Sets),” and “Checked Only (★ weak-spot review)”',
+      'Practical progression mode: ii–V–I, Marunouchi, Canon, Komuro, and Royal Road progressions, with auto-advance steps and demo playback',
+      'MIDI Learn: assign “Next” and “Previous” to the edge keys (A0/C8) or drum pads, and keep practicing without touching the screen',
+      'Large interactive keyboard with a color guide: lowest note (red), root (orange), chord tones (yellow), and your live presses (blue) are highlighted visually',
+      'Six high-quality sound presets (Piano, E. Piano, Organ, Synth, 8-bit, Music Box) and inversion options (1st–3rd inversions)',
+      'Supporter perk (Tip Jar ¥100): unlocks the “Harpsichord keyboard (inverted black & white)” theme, recreating a historic Baroque-era keyboard instrument',
+    ],
+    faqsEn: [
+      {
+        question: 'My MIDI keyboard is not recognized',
+        answer:
+          '1. Check that the USB cable or adapter is inserted fully and correctly. 2. If bus power is insufficient, connect through a self-powered USB hub. 3. For Bluetooth MIDI, check that the device is connected in iOS Settings > Bluetooth or in a DAW app. 4. When the status bar at the bottom of the screen shows “Connected MIDI: (device name),” the keyboard is recognized correctly.',
+      },
+      {
+        question: 'I am playing the right notes, but it does not count as correct',
+        answer:
+          'If “Include inversions” is turned on, you must play exactly the specified bass note (lowest note) and the inversion’s chord tones. Also check the “Notes pressed” indicator in the status bar to make sure you are not lightly touching a neighboring key by accident.',
+      },
+      {
+        question: 'When I change devices, does my tip purchase (supporter perk) carry over?',
+        answer:
+          'Yes. Tap “購入情報を復元 (Restore Purchases)” at the bottom of the Settings & MIDI Assignment screen to verify and sync the supporter perks (Crown badge and Harpsichord keyboard) purchased with the same Apple ID.',
+      },
+      {
+        question: 'No sound comes out of the app',
+        answer:
+          'If Silent Mode is turned on on your iPhone or iPad, no sound may play. Turn off Silent Mode in Control Center and raise the volume.',
+      },
+    ],
+    dataCollectedEn: [
+      'Custom practice sets, bookmarks (★ checked chords), inversion settings, and MIDI note assignment settings (stored only in local storage on your device; never sent to external servers)',
+      'MIDI keyboard input data (used only in memory via Apple CoreMIDI for real-time chord judgment and sound; never recorded or transmitted externally)',
+      'Supporter tip purchase status (verified securely on your device by Apple StoreKit 2; we never obtain or store your payment information or personal information)',
+    ],
+    inAppPurchasesEn:
+      'All training features are completely free, with no ads. If you purchase the optional developer supporter tip “Buy Me a Coffee (¥100 / consumable in-app purchase via StoreKit 2),” you unlock the Crown badge and the “Harpsichord keyboard (inverted black & white)” theme as supporter perks.',
     privacySummary: {
       overviewJa:
         '「ChordTrainer」は、完全オフライン動作・広告なし・トラッキングなしで設計されたMIDIコードトレーニングアプリです。アカウント登録は不要であり、ユーザーの演奏データや設定情報が外部サーバーへ送信・収集されることは一切ありません。',
@@ -154,6 +211,15 @@ export const APPS: AppItem[] = [
         'すべての学習設定データ（カスタムセット、ブックマーク、MIDI割当）はお使いのデバイス内にのみ保存されます。アプリをアンインストールすると端末内のデータも完全に削除されます。',
         '当方は外部データベースやトラッキングサーバーを一切運用していないため、当方サーバー上にユーザーデータが保持されることはありません。',
       ],
+      purposeItemsEn: [
+        'To judge and play back note input from USB / Bluetooth MIDI keyboards (CoreMIDI) in real time on your device',
+        'To save and restore your custom practice sets, ★ bookmarked chords, and MIDI Learn assignment settings on your device',
+        'To verify supporter tip (Tip Jar) payments via Apple StoreKit 2 and reflect the unlock status of the supporter perk (Harpsichord keyboard)',
+      ],
+      retentionItemsEn: [
+        'All learning and settings data (custom sets, bookmarks, MIDI assignments) is stored only on your device. Uninstalling the app deletes all on-device data completely.',
+        'We operate no external databases or tracking servers, so no user data is ever retained on our servers.',
+      ],
     },
     termsSummary: {
       licenseScopeJa:
@@ -162,6 +228,12 @@ export const APPS: AppItem[] = [
         '本アプリの基本機能はすべて無料・広告なしで提供されます。任意の「開発者を応援する（コーヒーをごちそう ¥100）」は Apple StoreKit 2 を用いた消耗型App内課金であり、1回以上のご支援によってサポーター限定特典（クラウンバッジおよびチェンバロ配色鍵盤）が解放されます。機種変更時は設定画面の「購入情報を復元」から同一Apple IDで特典を引き継ぐことができます。',
       ipRightsJa:
         '本アプリ内のプログラム、UIデザイン、チェンバロ配色を含む鍵盤グラフィック、内蔵音源プリセットに関する知的財産権は当方に帰属します。ユーザーが本アプリを用いて習得した演奏スキルや作成したカスタムコードセットの活用について一切の制限はありません。',
+      licenseScopeEn:
+        'We grant you a non-exclusive, personal right to use “ChordTrainer” on iPhone, iPad, or Mac devices that you own or control, in accordance with Apple’s Standard Licensed Application End User License Agreement (Standard EULA).',
+      iapTermsEn:
+        'All core features of the App are provided completely free, with no ads. The optional “Buy Me a Coffee (¥100)” supporter tip is a consumable in-app purchase via Apple StoreKit 2; supporting once or more unlocks the supporter-only perks (Crown badge and Harpsichord keyboard). When you change devices, you can carry over your perks with the same Apple ID via “Restore Purchases” in the Settings screen.',
+      ipRightsEn:
+        'Intellectual property rights in the App’s programs, UI design, keyboard graphics including the Harpsichord color scheme, and built-in sound presets belong to the Developer. There are no restrictions on how you use the performance skills you acquire with the App or the custom chord sets you create.',
     },
   },
   {
@@ -223,6 +295,48 @@ export const APPS: AppItem[] = [
       '広告表示やトラッキングは一切なく、すべての作曲・スマートボイシング・音源・保存機能をそのままご利用いただけます。任意の開発者応援チップ（¥100）をご購入いただくと、特典としてチェンバロ風の反転鍵盤テーマが解放されます。',
     restoreNoteEn:
       'If you reinstalled SketchChord or switched to a new iPhone/iPad, open the Support （応援） screen from the toolbar and tap 「以前の購入を復元する」 (Restore Purchases) while signed in with the same Apple ID used for the original purchase.',
+    subtitleEn: 'Chord progressions & voicings',
+    shortDescriptionEn:
+      'Place chords in 4-beat measure slots on a staff — like a handwritten lead sheet — and instantly hear and sketch your progressions. A composition assistant app.',
+    longDescriptionEn:
+      'SketchChord is an intuitive chord progression sketching and auditioning app designed for composers, keyboardists, and track makers. Place chords into beat slots on the staff, just like writing in a paper sketchbook, and they are automatically converted into five smart voicings played the way a professional keyboardist would play them (Root + Guide Tones / Drop 2 / Rootless, and more). With a high-precision real-time PCM sound engine built on AVAudioEngine (Electric Piano / Warm Piano / Soft Pad), you can hear beautiful results instantly, with no external sound sources.',
+    featuresEn: [
+      'Handwritten-style staff UI: 4-beat slots per measure with tie (extend) symbols, and a green playhead for real-time playback',
+      'Diatonic palette & custom chord builder: scale degrees in key (I–VII, color-coded by tonic / subdominant / dominant function, three minor scales supported) plus free construction of add9, m7♭5, 7(♭9), and slash chords',
+      'Five smart voicings, calculated automatically: “Root + Guide Tones (3rd/7th),” “Close,” “Open (Drop 2),” “Rootless (Jazz),” and “Octave Bass + Chord”',
+      'Voice leading & quick inversion bar: switch bass inversions (slash chords) and right-hand voicing inversions (RH Inversion) in one click, visualized on a 3-octave keyboard visualizer',
+      'Repeat-sign sequencer & section editing: automatic two-pass loop playback of repeat signs (|: / :|), section frames such as [Intro] [A] [B] [Chorus], and 4-measure row copying',
+      'AVAudioEngine real-time PCM synthesis: built-in Electric Piano with bell overtones, warm wooden Warm Piano, and rich Soft Pad',
+      'Auto-Save & lead-sheet text sharing: sketches are stored safely on-device in JSON format, and can be copied or shared as formatted text lead sheets in one tap',
+    ],
+    faqsEn: [
+      {
+        question: 'I can’t hear any sound. What should I do?',
+        answer:
+          'Please check that your Mac or iPhone/iPad is not in Silent Mode (mute switch) and that the system volume is not muted. Right after connecting Bluetooth earphones, pressing the Play button once will automatically start the audio engine (AVAudioEngine).',
+      },
+      {
+        question: 'Can I edit a preset progression and save it as-is?',
+        answer:
+          'To prevent accidental overwrites, preset templates (such as the Canon, Just The Two of Us, Royal Road, and Jazzy Rock progressions) cannot be overwritten directly. To keep your edits, tap “Save As” in the toolbar (or press Shift+Cmd+S) and save it as a new sketch in My Sketches.',
+      },
+      {
+        question: 'How do I make one chord ring for a whole measure (a whole note)?',
+        answer:
+          'Place the chord on beat 1, then press the “— Extend” button (or the T key) three times, on beats 2, 3, and 4. Tie symbols (—) will be placed on the staff, and the chord will sustain beautifully for the full measure without interruption.',
+      },
+      {
+        question: 'How can I use more of the screen on a laptop or iPad?',
+        answer:
+          'Press Cmd+K, or tap the “Hide Palette” button at the top right of the palette. The bottom palette smoothly collapses and the staff expands to fill the screen. While it is hidden, the currently selected chord and the audition controls remain visible in a compact form.',
+      },
+    ],
+    dataCollectedEn: [
+      'Musical sketch data you create (song title, artist name, key, BPM, chord progressions, and section settings: stored locally in JSON format in the Application Support area of your device, and never transmitted externally)',
+      'Clipboard output and shared text (only when you explicitly perform “Share Text / Copy,” the App passes the chord chart text to the standard OS share sheet or clipboard)',
+    ],
+    inAppPurchasesEn:
+      'There are no ads and no tracking, and all composition, smart voicing, sound, and saving features are fully available. If you purchase the optional developer supporter tip (¥100), you unlock a Harpsichord-style inverted keyboard theme as a thank-you perk.',
     privacySummary: {
       overviewJa:
         '「SketchChord」は、作曲家やミュージシャンの創作アイデア（楽曲スケッチ）のプライバシーを最優先に設計されています。すべてのコード譜データや音源合成処理はお使いのデバイス（iOS / iPadOS / macOS）内で完結し、外部サーバーへのデータ送信や行動トラッキングは一切行いません。',
@@ -237,6 +351,15 @@ export const APPS: AppItem[] = [
         '保存されたスケッチファイル（JSON形式）はお使いの端末内にのみ永続化されます。「マイスケッチ」ライブラリからいつでも個別に削除できるほか、アプリをアンインストールするとすべてのローカルデータが削除されます。',
         '第三者の広告SDKや解析ツールは一切組み込まれていません。',
       ],
+      purposeItemsEn: [
+        'To auto-save and load the chord progression sketches (My Sketches) you create and edit, in the Application Support folder on your device',
+        'To synthesize and play back PCM audio waveforms in real time on your device using AVAudioEngine',
+        'To output lead sheets (chord charts) in text format to the clipboard or the standard OS sharing features, based on your actions',
+      ],
+      retentionItemsEn: [
+        'Saved sketch files (in JSON format) persist only on your device. You can delete them individually at any time from the My Sketches library, and uninstalling the App deletes all local data.',
+        'No third-party advertising SDKs or analytics tools are embedded in the App.',
+      ],
     },
     termsSummary: {
       licenseScopeJa:
@@ -245,6 +368,12 @@ export const APPS: AppItem[] = [
         '本アプリにはユーザーの創作を妨げる広告表示や強制課金は一切含まれません。本アプリのApp内課金は任意の開発者応援チップ（¥100）のみで、決済はApple App Storeの決済システム（StoreKit）を通じて行われます。チップをご購入いただくと、特典としてチェンバロ風の反転鍵盤テーマが解放されます。',
       ipRightsJa:
         '重要（ユーザーの創作物の権利）：ユーザーが本アプリ（SketchChord）を使用して作成・アレンジ・出力したコード進行、楽曲スケッチ、および音楽作品の著作権・商用利用権は、100%ユーザーご自身に帰属します。当方がユーザーの楽曲データに対して権利を主張することは一切ありません。一方、本アプリ自体のソースコード、UIデザイン、PCM合成アルゴリズムに関する知的財産権は当方に帰属します。',
+      licenseScopeEn:
+        'We grant you a non-exclusive right to use “SketchChord” on iOS / iPadOS / macOS devices that you own or control, in accordance with Apple’s Standard Licensed Application End User License Agreement (Standard EULA).',
+      iapTermsEn:
+        'The App contains no advertising and no forced charges that would interfere with your creative work. The only in-app purchase in the App is the optional developer supporter tip (¥100), and payment is processed through Apple’s App Store payment system (StoreKit). Purchasing the tip unlocks a Harpsichord-style inverted keyboard theme as a perk.',
+      ipRightsEn:
+        'Important (rights to your creations): The copyrights and commercial use rights to chord progressions, musical sketches, and musical works that you create, arrange, or export using the App (SketchChord) belong 100% to you. The Developer will never claim any rights over your musical data. Meanwhile, the intellectual property rights concerning the App itself — its source code, UI design, and PCM synthesis algorithms — belong to the Developer.',
     },
   },
   {

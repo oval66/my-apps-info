@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   activeNav?: 'home' | 'apps' | 'support' | 'privacy' | 'terms' | 'legal';
   currentAppSlug?: string;
+  lang?: string;
 }
 
 const {
@@ -16,11 +17,12 @@ const {
   description = 'Elevate your daily iOS workflow with our minimalist native apps, support resources, and legal documentation.',
   activeNav = 'apps',
   currentAppSlug,
+  lang = 'ja',
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />

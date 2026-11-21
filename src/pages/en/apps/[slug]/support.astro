@@ -1,0 +1,184 @@
+---
+import DashboardLayout from '../../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../../components/AppSubNav.astro';
+import { APPS, DEVELOPER_INFO, type AppItem } from '../../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.filter((app) => app.subtitleEn).map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} Support — Help & FAQ`}
+  description={`Official customer support, troubleshooting guide, and frequently asked questions for ${app.name} on iOS.`}
+  activeNav="support"
+  currentAppSlug={app.slug}
+  lang="en"
+>
+  <AppSubNav app={app} activeTab="support" locale="en" />
+
+  <!-- Legal & Documentation Surface Box (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <article class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-headings:tracking-tight prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215] prose-a:underline-offset-4">
+      <h2>{app.name} Support Center</h2>
+      <p>
+        Thank you for using <strong>{app.name}</strong> (Current Version: <code>v{app.version}</code>, requires {app.iosRequirement}). Below you will find answers to frequently asked questions, troubleshooting steps, and direct contact information for our support team.
+      </p>
+
+      <hr />
+
+      <h3>1. Frequently Asked Questions</h3>
+      <div class="not-prose mt-4 mb-8 border-t border-l border-gray-200 bg-white">
+        {
+          (app.faqsEn ?? []).map((faq) => (
+            <div class="border-r border-b border-gray-200 p-6">
+              <h4 class="text-sm font-semibold text-[#111215] mb-2">
+                Q. {faq.question}
+              </h4>
+              <p class="text-xs md:text-sm leading-relaxed text-[#6B7280]">
+                {faq.answer}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+
+      <h3>2. Purchases & Restoration</h3>
+      <ul>
+        {
+          app.restoreNoteEn && (
+            <li>
+              <strong>Restoring Purchases:</strong> {app.restoreNoteEn}
+            </li>
+          )
+        }
+        <li>
+          <strong>No Subscriptions:</strong> {app.name} has no subscription and no recurring billing — there is nothing to cancel. Any purchase is a one-time payment handled securely by Apple.
+        </li>
+        <li>
+          <strong>Pricing Model:</strong> {app.inAppPurchasesEn}
+        </li>
+      </ul>
+
+      <h3>3. Direct Contact & Bug Reports</h3>
+      <p>
+        If the FAQ above does not solve your issue, or if you would like to report a bug or request a feature, please contact us via the form below. Including your device (e.g. iPhone 16 Pro / iPad Air), iOS version, and app version (<code>v{app.version}</code>) helps us assist you smoothly.
+      </p>
+
+      <div class="not-prose mt-4 mb-6">
+        <div class="bg-white border border-gray-200 p-6 md:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 mb-6 border-b border-gray-200">
+            <div>
+              <h4 class="text-sm font-semibold text-[#111215]">
+                {app.name} Contact Form
+              </h4>
+              <p class="text-xs text-[#6B7280] mt-0.5">
+                Fill in and send the form right here, or open the dedicated form with the button.
+              </p>
+            </div>
+            <a
+              href="https://tally.so/r/o99Ykb"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-white bg-[#111215] hover:bg-black rounded-lg transition-colors self-start sm:self-auto shrink-0"
+            >
+              <span>Open the contact form</span>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H8M17 7V16" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          <iframe
+            data-tally-src="https://tally.so/embed/o99Ykb?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy"
+            width="100%"
+            height="284"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title={`${app.name} Contact Form`}
+          ></iframe>
+        </div>
+
+        <p class="text-xs text-[#6B7280] mt-2.5">
+          If the form does not appear, please email us directly at{' '}
+          <a
+            href={`mailto:${app.supportEmail}?subject=${encodeURIComponent(`[${app.name} v${app.version}] Support Inquiry`)}`}
+            class="underline decoration-gray-400 underline-offset-2 hover:text-black"
+          >
+            {app.supportEmail}
+          </a>
+        </p>
+      </div>
+
+      <div class="not-prose mt-4 grid grid-cols-1 md:grid-cols-2 border-t border-l border-gray-200 bg-white">
+        <div class="border-r border-b border-gray-200 p-6">
+          <p class="text-xs text-[#6B7280] mb-1">Direct Support Email</p>
+          <a
+            href={`mailto:${app.supportEmail}?subject=${encodeURIComponent(`[${app.name} v${app.version}] Support Inquiry`)}`}
+            class="text-sm font-semibold text-[#111215] underline decoration-gray-400 underline-offset-4 hover:text-black break-all"
+          >
+            {app.supportEmail}
+          </a>
+          <p class="text-xs text-[#6B7280] mt-2">
+            Typical response time: Within 24–48 business hours (Mon–Fri).
+          </p>
+        </div>
+
+        <div class="border-r border-b border-gray-200 p-6">
+          <p class="text-xs text-[#6B7280] mb-1">Related Legal Documents</p>
+          <div class="flex flex-col gap-1.5 mt-2 text-xs">
+            <a
+              href={`/en/apps/${app.slug}/privacy`}
+              class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+            >
+              {app.name} Privacy Policy
+            </a>
+            <a
+              href={`/en/apps/${app.slug}/terms`}
+              class="underline decoration-gray-400 underline-offset-2 text-[#6B7280] hover:text-black"
+            >
+              {app.name} Terms of Use
+            </a>
+            <span class="text-[#6B7280]">
+              Developer: {DEVELOPER_INFO.studioName} ({DEVELOPER_INFO.jurisdiction})
+            </span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <script is:inline>
+    var d = document,
+      w = "https://tally.so/widgets/embed.js",
+      v = function () {
+        if (typeof Tally !== "undefined") {
+          Tally.loadEmbeds();
+        } else {
+          d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach(function (e) {
+            e.src = e.dataset.tallySrc;
+          });
+        }
+      };
+    if (typeof Tally !== "undefined") {
+      v();
+    } else if (d.querySelector('script[src="' + w + '"]') == null) {
+      var s = d.createElement("script");
+      s.src = w;
+      s.onload = v;
+      s.onerror = v;
+      d.body.appendChild(s);
+    }
+  </script>
+</DashboardLayout>

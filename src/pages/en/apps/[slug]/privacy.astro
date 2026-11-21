@@ -1,0 +1,140 @@
+---
+import DashboardLayout from '../../../../layouts/DashboardLayout.astro';
+import AppSubNav from '../../../../components/AppSubNav.astro';
+import { APPS, DEVELOPER_INFO, type AppItem } from '../../../../data/apps';
+
+export function getStaticPaths() {
+  return APPS.filter((app) => app.subtitleEn).map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppItem;
+}
+
+const { app } = Astro.props;
+---
+
+<DashboardLayout
+  title={`${app.name} — Privacy Policy`}
+  description={`Official Privacy Policy detailing local storage, audio/MIDI processing, and privacy practices for ${app.name}.`}
+  activeNav="privacy"
+  currentAppSlug={app.slug}
+  lang="en"
+>
+  <AppSubNav app={app} activeTab="privacy" locale="en" />
+
+  <!-- Legal & Documentation Surface Box (Specification 4.D) -->
+  <div class="bg-white border border-gray-200 p-8 md:p-12">
+    <article class="prose prose-gray max-w-none prose-headings:text-[#111215] prose-headings:tracking-tight prose-p:text-[#6B7280] prose-li:text-[#6B7280] prose-a:text-[#111215] prose-a:underline-offset-4">
+      <div class="not-prose mb-8 pb-6 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-[#6B7280] font-medium">
+            Legal Documentation
+          </span>
+          <h2 class="text-xl md:text-2xl font-semibold text-[#111215] mt-0.5">
+            Privacy Policy — {app.name}
+          </h2>
+        </div>
+        <div class="text-xs text-[#6B7280]">
+          <p>Effective Date: {app.releaseDate}</p>
+          <p>Last Updated: {app.lastUpdated}</p>
+        </div>
+      </div>
+
+      <p>
+        {DEVELOPER_INFO.studioName} (“we,” “us,” or “the Developer”) establishes this Privacy Policy (this “Policy”) regarding the handling of user information in the application <strong>“{app.name}”</strong> ({app.subtitleEn}, the “App”) as follows.
+      </p>
+      <p>
+        {app.privacySummary.overviewEn}
+      </p>
+
+      <h3>1. Information Processed Locally</h3>
+      <p>
+        The App is designed to put user privacy first: it does not collect information that can identify individuals, nor transmit any data to external servers. The information the App handles on your device is as follows:
+      </p>
+      <ul>
+        {
+          (app.dataCollectedEn ?? []).map((item) => (
+            <li>{item}</li>
+          ))
+        }
+        <li>
+          <strong>Information provided when contacting support:</strong> if you contact us by email ({app.supportEmail}), we receive your email address and the content of your message, to the extent necessary to respond and provide support.
+        </li>
+      </ul>
+
+      <h3>2. How Your Data Is Used</h3>
+      <p>
+        Data and settings processed within the App are used solely for the following purposes:
+      </p>
+      <ul>
+        {
+          (app.privacySummary.purposeItemsEn ?? []).map((purpose) => (
+            <li>{purpose}</li>
+          ))
+        }
+      </ul>
+
+      <h3>3. Third-Party Services & SDKs</h3>
+      {
+        app.thirdPartyServices.length > 0 ? (
+          <>
+            <p>
+              The App contains no advertising SDKs or third-party behavioral analytics tools. It uses only the following standard platform features:
+            </p>
+            <ul>
+              {app.thirdPartyServices.map((service) => (
+                <li>
+                  <strong>{service.name}:</strong> {service.purposeEn ?? service.purpose}{' '}
+                  <a href={service.policyUrl} target="_blank" rel="noopener noreferrer">
+                    View Apple’s Privacy Policy
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p>
+            <strong>Zero external transmission and zero third-party SDKs:</strong> The App ({app.name}) does not use any third-party advertising networks, analytics SDKs, or external databases. All processing is completed 100% on your Apple device.
+          </p>
+        )
+      }
+
+      <h3>4. Data Retention & Deletion</h3>
+      <ul>
+        {
+          (app.privacySummary.retentionItemsEn ?? []).map((item) => (
+            <li>{item}</li>
+          ))
+        }
+      </ul>
+
+      <h3>5. Children’s Privacy</h3>
+      <p>
+        The App is a music learning and creation tool that can be used safely by people of all ages, and it does not collect or track personal information from any user, including children under 13.
+      </p>
+
+      <h3>6. Changes to This Policy</h3>
+      <p>
+        This Policy may be revised in connection with updates to the App or changes in laws and regulations. If there are significant changes, we will announce them by updating the “Last Updated” date on this page.
+      </p>
+
+      <h3>7. Contact Us</h3>
+      <p>
+        If you have any questions about this Policy or the handling of information in “{app.name},” please contact us at:
+      </p>
+      <ul>
+        <li>
+          <strong>Developer:</strong> {DEVELOPER_INFO.studioName}
+        </li>
+        <li>
+          <strong>Contact Email:</strong>{' '}
+          <a href={`mailto:${app.supportEmail}`}>{app.supportEmail}</a>
+        </li>
+      </ul>
+    </article>
+  </div>
+</DashboardLayout>
