@@ -11,6 +11,7 @@ interface Props {
 const { app, activeTab, locale = 'ja' } = Astro.props;
 
 const basePath = locale === 'en' ? `/en/apps/${app.slug}` : `/apps/${app.slug}`;
+const prefOnSwitch = locale === 'en' ? 'ja' : 'en';
 const tabSuffix = activeTab === 'overview' ? '' : `/${activeTab}`;
 const counterpartHref = locale === 'en' ? `/apps/${app.slug}${tabSuffix}` : `/en/apps/${app.slug}${tabSuffix}`;
 
@@ -133,6 +134,7 @@ const subTabs = [
       app.subtitleEn && (
         <a
           href={counterpartHref}
+          onclick={`try{localStorage.setItem('lang-pref','${prefOnSwitch}')}catch(e){}`}
           class="ml-auto px-3 py-1.5 text-xs text-gray-600 underline decoration-gray-400 underline-offset-2 hover:text-gray-900"
         >
           {locale === 'en' ? '日本語' : 'English'}
