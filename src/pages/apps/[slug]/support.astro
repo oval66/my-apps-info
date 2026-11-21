@@ -54,13 +54,17 @@ const { app } = Astro.props;
         }
       </div>
 
-      <h3>2. Purchases & Subscription Restoration (購入の復元・解約について)</h3>
+      <h3>2. Purchases & Restoration (購入の復元について)</h3>
       <ul>
+        {
+          app.restoreNoteEn && (
+            <li>
+              <strong>Restoring Purchases (購入の復元):</strong> {app.restoreNoteEn}
+            </li>
+          )
+        }
         <li>
-          <strong>Restoring Purchases (購入の復元):</strong> If you reinstalled {app.name} or switched to a new iPhone/iPad, open the in-app Settings screen and tap <em>"Restore Purchases"</em> while signed into the same Apple ID used for the original transaction.
-        </li>
-        <li>
-          <strong>Managing Subscriptions (サブスクリプションの管理):</strong> All billing is handled securely by Apple. You can view, modify, or cancel active subscriptions at any time via <strong>iOS Settings &gt; [Your Name] &gt; Subscriptions</strong>.
+          <strong>No Subscriptions (サブスクリプションについて):</strong> {app.name} has no subscription and no recurring billing — there is nothing to cancel. Any purchase is a one-time payment handled securely by Apple.
         </li>
         <li>
           <strong>Pricing Model:</strong> {app.inAppPurchases}

@@ -40,6 +40,7 @@ export interface AppItem {
   dataCollected: string[];
   thirdPartyServices: { name: string; purpose: string; policyUrl: string }[];
   inAppPurchases: string;
+  restoreNoteEn?: string;
   privacySummary: {
     overviewJa: string;
     overviewEn: string;
@@ -137,6 +138,8 @@ export const APPS: AppItem[] = [
     ],
     inAppPurchases:
       'アプリの全トレーニング機能は完全無料・広告なしでご利用いただけます。任意の開発者応援チップ「コーヒーをごちそう（¥100 / StoreKit 2 消耗型App内課金）」をご購入いただくと、サポーター特典としてクラウンバッジおよび「チェンバロ配色鍵盤（白黒反転）」テーマがアンロックされます。',
+    restoreNoteEn:
+      'If you reinstalled ChordTrainer or switched to a new iPhone/iPad, open the Settings & MIDI Assignment screen （設定・MIDI割当） and tap 「購入情報を復元」 (Restore Purchases) while signed in with the same Apple ID used for the original purchase.',
     privacySummary: {
       overviewJa:
         '「ChordTrainer」は、完全オフライン動作・広告なし・トラッキングなしで設計されたMIDIコードトレーニングアプリです。アカウント登録は不要であり、ユーザーの演奏データや設定情報が外部サーバーへ送信・収集されることは一切ありません。',
@@ -217,7 +220,9 @@ export const APPS: AppItem[] = [
     ],
     thirdPartyServices: [],
     inAppPurchases:
-      '広告表示やトラッキングは一切なく、すべての作曲・スマートボイシング・音源・保存機能をそのままご利用いただけます。',
+      '広告表示やトラッキングは一切なく、すべての作曲・スマートボイシング・音源・保存機能をそのままご利用いただけます。任意の開発者応援チップ（¥100）をご購入いただくと、特典としてチェンバロ風の反転鍵盤テーマが解放されます。',
+    restoreNoteEn:
+      'If you reinstalled SketchChord or switched to a new iPhone/iPad, open the Support （応援） screen from the toolbar and tap 「以前の購入を復元する」 (Restore Purchases) while signed in with the same Apple ID used for the original purchase.',
     privacySummary: {
       overviewJa:
         '「SketchChord」は、作曲家やミュージシャンの創作アイデア（楽曲スケッチ）のプライバシーを最優先に設計されています。すべてのコード譜データや音源合成処理はお使いのデバイス（iOS / iPadOS / macOS）内で完結し、外部サーバーへのデータ送信や行動トラッキングは一切行いません。',
@@ -237,7 +242,7 @@ export const APPS: AppItem[] = [
       licenseScopeJa:
         '当方はユーザーに対し、Appleの標準エンドユーザー使用許諾契約（Standard Licensed Application EULA）に従い、ご自身が所有または管理するiOS / iPadOS / macOSデバイス上で「SketchChord」を非独占的に利用する権利を許諾します。',
       iapTermsJa:
-        '本アプリにはユーザーの創作を妨げる広告表示や強制課金は一切含まれません。万が一将来的に追加パックやApp内課金が導入される場合も、Apple App Storeの決済システム（StoreKit）を通じて明確な同意のもとでのみ提供されます。',
+        '本アプリにはユーザーの創作を妨げる広告表示や強制課金は一切含まれません。本アプリのApp内課金は任意の開発者応援チップ（¥100）のみで、決済はApple App Storeの決済システム（StoreKit）を通じて行われます。チップをご購入いただくと、特典としてチェンバロ風の反転鍵盤テーマが解放されます。',
       ipRightsJa:
         '重要（ユーザーの創作物の権利）：ユーザーが本アプリ（SketchChord）を使用して作成・アレンジ・出力したコード進行、楽曲スケッチ、および音楽作品の著作権・商用利用権は、100%ユーザーご自身に帰属します。当方がユーザーの楽曲データに対して権利を主張することは一切ありません。一方、本アプリ自体のソースコード、UIデザイン、PCM合成アルゴリズムに関する知的財産権は当方に帰属します。',
     },
